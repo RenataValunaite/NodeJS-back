@@ -11,7 +11,7 @@ module.exports.GET_USER_TUTORIALS = function (req, res) {
   }
   const tokenId = jwt.verify(token, process.env.JWT_SECRET);
   req.body.id = tokenId.userId;
-  TutorialSchema.findOne({ userId: req.body.id }).then((results) => {
+  TutorialSchema.find({ userId: req.body.id }).then((results) => {
     return res.status(200).json({ tutorials: results });
   });
 };
@@ -36,11 +36,6 @@ module.exports.CREATE_TUTORIAL = function (req, res) {
     console.log(result._id);
 
     TutorialSchema.updateOne({ _id: result._id }, { id: result._id }).exec();
-
-    UserSchema.updateOne(
-      { _id: req.body.userId },
-      { $push: { tutorialIds: result._id.toString() } }
-    ).exec();
 
     return res.status(200).json({
       statusMessage: "tutorial was created successfully",

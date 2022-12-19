@@ -64,7 +64,6 @@ module.exports.USER_LOGIN = async (req, res) => {
 };
 
 module.exports.GET_USER = async function (req, res) {
-  console.log("xxxxxx");
   const data = await UserSchema.aggregate([
     {
       $lookup: {
